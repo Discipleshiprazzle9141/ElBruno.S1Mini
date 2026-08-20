@@ -16,6 +16,19 @@ Given a raw ASR transcript, s1-mini:
 
 Quality: the vendor reports **94.8% token accuracy** on a held-out set of 7,519 English test cases (Superwhisper's own measurement — not independently re-verified by this project). **English only, v1.**
 
+> **What that number applies to.** Superwhisper measured 94.8% on their official
+> [GGUF Q4_K_M build](https://huggingface.co/superwhisper/s1-mini-GGUF), which their model card
+> describes as "the build the published accuracy was measured on." This library runs a
+> *different* quantization — the INT4 ONNX conversion in
+> [`elbruno/s1-mini-onnx`](https://huggingface.co/elbruno/s1-mini-onnx) — whose accuracy has
+> **not** been separately measured. Treat 94.8% as an upstream figure for the reference build,
+> not as a verified property of the INT4 ONNX weights.
+
+> **Not using .NET?** Superwhisper publishes official GGUF builds at
+> [superwhisper/s1-mini-GGUF](https://huggingface.co/superwhisper/s1-mini-GGUF) for llama.cpp,
+> Ollama, and LM Studio. This library targets ONNX Runtime GenAI instead, so the ONNX
+> conversion is what it downloads.
+
 ## Required prompt format
 
 s1-mini was fine-tuned against one exact system prompt plus a one-line control header. `TranscriptNormalizer` builds this for you, but it's worth understanding the wire format.

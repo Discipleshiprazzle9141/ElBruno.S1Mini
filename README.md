@@ -178,7 +178,9 @@ Each chunk is normalized statelessly at sentence boundaries; for tighter control
 
 ## Model license
 
-`superwhisper/s1-mini` is Apache-2.0 with a naming clause. The converted ONNX artifacts (`elbruno/s1-mini-onnx`) are an **explicitly unofficial, unaffiliated, non-endorsed derivative**. `ElBruno.S1Mini`'s C# code is MIT; the downloaded model weights remain under the upstream Apache-2.0 license. Vendor quality claim: **94.8% token accuracy on 7,519 held-out English cases** (Superwhisper's measurement, not independently re-verified here). **English only, v1.**
+`superwhisper/s1-mini` is Apache-2.0 with a naming clause. The converted ONNX artifacts (`elbruno/s1-mini-onnx`) are an **explicitly unofficial, unaffiliated, non-endorsed derivative**. `ElBruno.S1Mini`'s C# code is MIT; the downloaded model weights remain under the upstream Apache-2.0 license. Vendor quality claim: **94.8% token accuracy on 7,519 held-out English cases** — Superwhisper's measurement on their official [GGUF Q4_K_M build](https://huggingface.co/superwhisper/s1-mini-GGUF), **not** on the INT4 ONNX weights this library downloads, whose accuracy has not been separately measured. **English only, v1.**
+
+Superwhisper also publishes official [GGUF builds](https://huggingface.co/superwhisper/s1-mini-GGUF) for llama.cpp, Ollama, and LM Studio. This library targets ONNX Runtime GenAI, which is what .NET can consume directly.
 
 ## Building from Source
 
