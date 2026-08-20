@@ -1,4 +1,4 @@
-# Image prompts for `s1-mini-local-transcript-cleanup-dotnet.md`
+# Image prompts for `26-08-20-intro.md`
 
 ## How these were generated
 

@@ -1,4 +1,4 @@
-# Social copy for `s1-mini-local-transcript-cleanup-dotnet.md`
+# Social copy for `26-08-20-intro.md`
 
 ## LinkedIn
 
