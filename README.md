@@ -150,8 +150,6 @@ dotnet test ElBruno.S1Mini.slnx --framework net8.0
 | [S1MiniWebSample](src/samples/S1MiniWebSample) | Blazor Server web UI: textarea → Normalize → cleaned output with styling/structure/context selectors. |
 | [LiveMicTranscription](src/samples/LiveMicTranscription) | Windows-only console sample: default microphone → [Silero VAD](https://www.nuget.org/packages/ElBruno.Realtime.SileroVad) speech detection → [ElBruno.Whisper](https://www.nuget.org/packages/ElBruno.Whisper) speech-to-text → s1-mini cleanup, live and fully local. A [Spectre.Console](https://spectreconsole.net/) UI provides arrow-key model/style pickers, per-model download progress bars, a live input meter, and side-by-side raw vs. cleaned transcript panels, then offers to delete every downloaded model on exit. Supports `--save-audio` and `--wav <file\|folder>` for reproducible testing. |
 
-![S1Mini web sample](docs/images/websample.png)
-
 ### Reproducible testing with recordings
 
 Live microphone testing is not repeatable — every attempt is a new performance. The sample
@@ -228,10 +226,12 @@ MIT — see [LICENSE](LICENSE). The downloaded s1-mini model weights are Apache-
 
 Hi! I'm **ElBruno** 🧡, a passionate developer and content creator exploring AI, .NET, and modern development practices.
 
-- 💻 **Blog**: [ElBruno.com](https://elbruno.com)
-- 📺 **YouTube**: [youtube.com/@inthelabs](https://youtube.com/@inthelabs)
-- 🔗 **LinkedIn**: [linkedin.com/in/inthelabs](https://linkedin.com/in/inthelabs)
-- 𝕏 **Twitter**: [@inthelabs](https://twitter.com/inthelabs)
-- 🎙️ **Podcast**: [inthelabs.dev](https://inthelabs.dev)
-
 **Made with ❤️ by [ElBruno](https://github.com/elbruno)**
+
+If you like this project, consider following my work across platforms:
+
+- 📻 **Podcast**: [No Tienen Nombre](https://notienenombre.com) — Spanish-language episodes on AI, development, and tech culture
+- 💻 **Blog**: [ElBruno.com](https://elbruno.com) — Deep dives on embeddings, RAG, .NET, and local AI
+- 📺 **YouTube**: [youtube.com/elbruno](https://www.youtube.com/elbruno) — Demos, tutorials, and live coding
+- 🔗 **LinkedIn**: [@elbruno](https://www.linkedin.com/in/elbruno/) — Professional updates and insights
+- 𝕏 **Twitter**: [@elbruno](https://www.x.com/elbruno/) — Quick tips, releases, and tech news

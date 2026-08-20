@@ -74,5 +74,3 @@ dotnet run --project src/samples/S1MiniWebSample/S1MiniWebSample.csproj -c Relea
 ```
 
 Open the local URL shown in the console, paste a transcript, choose the control-line options, and click **Normalize** to see the cleaned result.
-
-![S1MiniWebSample](images/websample.png)
