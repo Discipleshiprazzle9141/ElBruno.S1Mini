@@ -18,10 +18,10 @@ jobs:
       id-token: write
       contents: read
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: |
             8.0.x
@@ -126,7 +126,7 @@ jobs:
           Write-Host "✅ Published ElBruno.S1Mini ${{ steps.version.outputs.version }} to NuGet.org ($pushConfirmationCount push confirmation(s): $($packages.Count) package, $($symbolPackages.Count) symbol)."
 
       - name: Upload NuGet package artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: nupkg
           path: artifacts/*.nupkg
