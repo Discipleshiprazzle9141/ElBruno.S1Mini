@@ -23,19 +23,13 @@ jobs:
             10.0.x
 
       - name: Restore
-        run: |
-          dotnet restore src/ElBruno.S1Mini/ElBruno.S1Mini.csproj -p:TargetFrameworks=net8.0
-          dotnet restore src/tests/ElBruno.S1Mini.Tests/ElBruno.S1Mini.Tests.csproj
-          dotnet restore src/samples/HelloS1Mini/HelloS1Mini.csproj
+        run: dotnet restore ElBruno.S1Mini.slnx -p:TargetFramework=net8.0 -p:TargetFrameworks=net8.0 -p:NoBuild=false
 
       - name: Build
-        run: |
-          dotnet build src/ElBruno.S1Mini/ElBruno.S1Mini.csproj --no-restore -p:TargetFrameworks=net8.0
-          dotnet build src/tests/ElBruno.S1Mini.Tests/ElBruno.S1Mini.Tests.csproj --no-restore
-          dotnet build src/samples/HelloS1Mini/HelloS1Mini.csproj --no-restore
+        run: dotnet build ElBruno.S1Mini.slnx --no-restore -p:TargetFramework=net8.0 -p:TargetFrameworks=net8.0 -p:NoBuild=false
 
       - name: Test
-        run: dotnet test src/tests/ElBruno.S1Mini.Tests/ElBruno.S1Mini.Tests.csproj --no-build --framework net8.0 --verbosity normal --logger "trx;LogFileName=test-results.trx"
+        run: dotnet test ElBruno.S1Mini.slnx --no-build --framework net8.0 --verbosity normal --logger "trx;LogFileName=test-results.trx"
 
       - name: Upload test results
         uses: actions/upload-artifact@v4

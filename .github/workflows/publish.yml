@@ -37,7 +37,7 @@ jobs:
           elif [[ -n "${{ inputs.version }}" ]]; then
             VERSION="${{ inputs.version }}"
           else
-            VERSION=$(grep -oP '<Version>\K[^<]+' src/ElBruno.S1Mini/ElBruno.S1Mini.csproj)
+            VERSION=$(dotnet msbuild src/ElBruno.S1Mini/ElBruno.S1Mini.csproj -nologo -getProperty:Version | tr -d '\r')
           fi
           if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+ ]]; then
             echo "❌ Invalid version: '$VERSION'"; exit 1
@@ -46,21 +46,36 @@ jobs:
           echo "📦 Publishing version: $VERSION"
 
       - name: Restore
-        run: |
-          dotnet restore src/ElBruno.S1Mini/ElBruno.S1Mini.csproj
-          dotnet restore src/tests/ElBruno.S1Mini.Tests/ElBruno.S1Mini.Tests.csproj
+        run: dotnet restore ElBruno.S1Mini.slnx
 
       - name: Build
-        run: |
-          dotnet build src/ElBruno.S1Mini/ElBruno.S1Mini.csproj -c Release --no-restore -p:Version=${{ steps.version.outputs.version }}
-          dotnet build src/tests/ElBruno.S1Mini.Tests/ElBruno.S1Mini.Tests.csproj -c Release --no-restore
+        run: dotnet build src/ElBruno.S1Mini/ElBruno.S1Mini.csproj -c Release --no-restore -p:Version=${{ steps.version.outputs.version }}
 
       - name: Unit Tests
-        run: dotnet test src/tests/ElBruno.S1Mini.Tests/ElBruno.S1Mini.Tests.csproj -c Release --no-build --framework net8.0 --verbosity normal
+        run: dotnet test src/tests/ElBruno.S1Mini.Tests/ElBruno.S1Mini.Tests.csproj -c Release --framework net8.0 -p:Version=${{ steps.version.outputs.version }} --verbosity normal
+
+      - name: Validate README What's New policy
+        run: |
+          SECTION=$(awk '/^## What'"'"'s New/{flag=1;next}/^## /{flag=0}flag{print}' README.md)
+          if [[ -z "$SECTION" ]]; then
+            echo "❌ README.md must contain a '## What's New' section."
+            exit 1
+          fi
+
+          COUNT=$(printf "%s\n" "$SECTION" | grep -E '^- ' | wc -l | xargs)
+          if [[ "$COUNT" -ne 5 ]]; then
+            echo "❌ '## What's New' must contain exactly 5 notable entries. Found: $COUNT"
+            exit 1
+          fi
+
+          echo "✅ README What's New policy passed (5 entries)."
 
       - name: Pack
-        run: |
-          dotnet pack src/ElBruno.S1Mini/ElBruno.S1Mini.csproj -c Release --no-build -p:Version=${{ steps.version.outputs.version }} -o artifacts
+        run: dotnet pack src/ElBruno.S1Mini/ElBruno.S1Mini.csproj -c Release --no-build -p:Version=${{ steps.version.outputs.version }} -o artifacts
+
+      - name: Validate packed assembly versions
+        shell: pwsh
+        run: ./scripts/Validate-PackageAssemblyVersions.ps1 -PackageDirectory ./artifacts
 
       - name: NuGet login (OIDC → temp API key)
         uses: NuGet/login@v1
@@ -69,10 +84,7 @@ jobs:
           user: ${{ secrets.NUGET_USER }}
 
       - name: Push to NuGet.org
-        run: |
-          for package in artifacts/*.nupkg; do
-            dotnet nuget push "$package" --api-key ${{ steps.login.outputs.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
-          done
+        run: dotnet nuget push artifacts/*.nupkg --api-key ${{ steps.login.outputs.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
 
       - name: Upload NuGet package artifact
         uses: actions/upload-artifact@v4

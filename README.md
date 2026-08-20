@@ -131,11 +131,11 @@ dotnet test ElBruno.S1Mini.slnx --framework net8.0
 
 ## What's New
 
-1. **Initial release** — `TranscriptNormalizer` API with styling/structure/context control line, chunking helper, and DI extension.
-2. **`S1MiniClient`** — self-contained `IChatClient` implementation with automatic HuggingFace download of `elbruno/s1-mini-onnx` (int4).
-3. **Qwen3 non-thinking prompt format** — ported verbatim from the model's own `chat_template.jinja`, verified byte-for-byte against the real model.
-4. **ORT-GenAI temperature-0 crash guard** — the native `temperature=0` divide-by-zero trap is guarded at the runtime layer; greedy decoding is safe for every call.
-5. **Empirically-verified control-line documentation** — enum XML docs and README table reflect what the real INT4 model actually does, including the `lists` / `message` / `notes` caveats.
+- 🎉 **`v0.1.0`** — Initial release: `TranscriptNormalizer` API with styling/structure/context control line, chunking helper, and DI extension.
+- 🧵 **`S1MiniClient`** — self-contained `IChatClient` implementation with automatic HuggingFace download of `elbruno/s1-mini-onnx` (int4).
+- 🧪 **Qwen3 non-thinking prompt format** — ported verbatim from the model's own `chat_template.jinja`, verified byte-for-byte against the real model.
+- 🦺 **ORT-GenAI temperature-0 crash guard** — the native `temperature=0` divide-by-zero trap is guarded at the runtime layer; greedy decoding is safe for every call.
+- 🔬 **Empirically-verified control-line documentation** — enum XML docs and README table reflect what the real INT4 model actually does, including the `lists` / `message` / `notes` caveats.
 
 ## Documentation
 
