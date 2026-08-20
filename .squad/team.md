@@ -12,7 +12,15 @@
 
 | Name | Role | Charter | Status |
 |------|------|---------|--------|
-
+| Mara | Lead | .squad/agents/mara/charter.md | Active |
+| Ivo | .NET Engineer | .squad/agents/ivo/charter.md | Active |
+| Kade | Model/Inference Engineer | .squad/agents/kade/charter.md | Active |
+| Nia | QA/Test Engineer | .squad/agents/nia/charter.md | Active |
+| Sera | Docs/Release Engineer | .squad/agents/sera/charter.md | Active |
+| Scribe | Session Logger | .squad/agents/scribe/charter.md | Active |
+| Ralph | Work Monitor | .squad/agents/ralph/charter.md | Active |
+| Rai | RAI Reviewer | .squad/agents/Rai/charter.md | Active |
+| Fact Checker | Fact Checker | .squad/agents/fact-checker/charter.md | Active |
 
 ## Coding Agent
 
@@ -51,3 +59,7 @@
 
 - **Project:** ElBruno.S1Mini
 - **Created:** 2026-08-20
+- **Requested by:** Copilot
+- **Stack:** .NET 8+, C#, ONNX Runtime GenAI, HuggingFace model packaging, local ASR normalization
+- **Primary goal:** Normalize raw ASR transcripts into clean written text with strong eval and release discipline
+- **Source prompt:** FIRST_PROMPT.md

@@ -6,20 +6,22 @@ How to decide who handles what.
 
 | Work Type | Route To | Examples |
 |-----------|----------|----------|
-| {domain 1} | {Name} | {example tasks} |
-| {domain 2} | {Name} | {example tasks} |
-| {domain 3} | {Name} | {example tasks} |
-| Code review | {Name} | Review PRs, check quality, suggest improvements |
-| Testing | {Name} | Write tests, find edge cases, verify fixes |
-| Scope & priorities | {Name} | What to build next, trade-offs, decisions |
+| Scope, priorities, release decisions | Mara | Architecture choices, sequencing, risk triage, release gating |
+| Public API, DI, package surface, .NET library work | Ivo | `S1MiniClient`, `TranscriptNormalizer`, `AddTranscriptNormalizer`, NuGet packaging |
+| ONNX Runtime GenAI, prompts, inference safety, model behaviors | Kade | Guardrailing temperature, tokenizer/decode assumptions, prompt format, model eval troubleshooting |
+| Tests, edge cases, regressions, evals | Nia | Failures, missing coverage, eval scripts, transcript normalization edge cases |
+| README, docs, release notes, user guidance | Sera | Installation docs, transcript normalization docs, release README verification |
 | Session logging | Scribe | Automatic — never needs routing |
-| RAI review | Rai | Content safety, bias checks, credential detection, ethical review |
+| Backlog, queue health, keep-alive | Ralph | Monitoring, follow-up, work tracking |
+| RAI review | Rai | Safety checks, credential exposure, harmful content, fairness concerns |
+| Verification and devil's advocate | Fact Checker | Claim checking, pre-mortem, assumptions, external validation |
+| Code review | Mara | Final review gate for architecture or release-readiness questions |
 
 ## Issue Routing
 
 | Label | Action | Who |
 |-------|--------|-----|
-| `squad` | Triage: analyze issue, assign `squad:{member}` label | Lead |
+| `squad` | Triage: analyze issue, assign `squad:{member}` label | Mara |
 | `squad:{name}` | Pick up issue and complete the work | Named member |
 
 ### How Issue Assignment Works
@@ -38,3 +40,4 @@ How to decide who handles what.
 5. **"Team, ..." → fan-out.** Spawn all relevant agents in parallel as `mode: "background"`.
 6. **Anticipate downstream work.** If a feature is being built, spawn the tester to write test cases from requirements simultaneously.
 7. **Issue-labeled work** — when a `squad:{member}` label is applied to an issue, route to that member. The Lead handles all `squad` (base label) triage.
+8. **Repository invariants** — any change touching the runtime guardrails, model prompt contract, or zero-length decode assumptions must route to Kade and Nia before merge.
