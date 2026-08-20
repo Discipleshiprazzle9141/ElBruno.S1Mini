@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src\ElBruno.S1Mini\ElBruno.S1Mini.csproj" />
+  </Folder>
+  <Folder Name="/src/tests/">
+    <Project Path="src\tests\ElBruno.S1Mini.Tests\ElBruno.S1Mini.Tests.csproj" />
+  </Folder>
+  <Folder Name="/src/samples/">
+    <Project Path="src\samples\HelloS1Mini\HelloS1Mini.csproj" />
+  </Folder>
+</Solution>

@@ -1,0 +1,30 @@
+## .NET Build Output
+bin/
+obj/
+*.nupkg
+*.snupkg
+*.user
+*.suo
+*.cache
+.vs/
+
+## Test Results
+TestResults/
+*.trx
+*.coverage
+
+## NuGet packages
+packages/
+*.lock.json
+
+## IDEs
+.idea/
+*.sln.iml
+.vscode/
+
+## OS Files
+.DS_Store
+Thumbs.db
+
+## Local artifacts
+artifacts/
