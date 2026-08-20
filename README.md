@@ -55,6 +55,66 @@ Console.WriteLine(cleaned);
 // So I need to send the report by Thursday.
 ```
 
+## What it actually changes
+
+Three short console samples. Each is a complete program — the only difference is the input.
+
+**1 · Collapses stutters and repeated words**
+
+```csharp
+using ElBruno.S1Mini.Normalization;
+
+using var normalizer = await TranscriptNormalizer.CreateAsync();
+
+Console.WriteLine(await normalizer.NormalizeAsync(
+    "you don't have any any any any change at all?"));
+```
+
+```text
+You don't have any change at all.
+```
+
+**2 · Resolves self-corrections to what the speaker landed on**
+
+```csharp
+using ElBruno.S1Mini.Normalization;
+
+using var normalizer = await TranscriptNormalizer.CreateAsync();
+
+Console.WriteLine(await normalizer.NormalizeAsync(
+    "i think we should uh go with with option b i mean option c"));
+```
+
+```text
+I think we should go with option C.
+```
+
+Note it keeps `option C` — the choice the speaker corrected *to*, not the one they abandoned.
+
+**3 · Writes spoken numbers, times, and dates in written form**
+
+```csharp
+using ElBruno.S1Mini.Normalization;
+
+using var normalizer = await TranscriptNormalizer.CreateAsync();
+
+Console.WriteLine(await normalizer.NormalizeAsync(
+    "lets meet at uh three thirty on on tuesday the the tenth"));
+```
+
+```text
+Let's meet at 3:30 on Tuesday the 10th.
+```
+
+> These outputs are measured against the real INT4 model with default options, and are
+> pinned by regression tests in
+> [`TranscriptNormalizerModelTests`](src/tests/ElBruno.S1Mini.Tests/Normalization/TranscriptNormalizerModelTests.cs)
+> so they cannot silently drift.
+>
+> It normalizes rather than rewrites: casual phrasing survives. `the the total was like
+> twenty five dollars and uh fifty cents` becomes `The total was like $25.50.` — the
+> numerals are fixed, but the colloquial "like" stays.
+
 ## Control-line options
 
 ```csharp
