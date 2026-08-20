@@ -131,11 +131,11 @@ dotnet test ElBruno.S1Mini.slnx --framework net8.0
 
 ## What's New
 
-- 🎉 **`v0.1.0`** — Initial release: `TranscriptNormalizer` API with styling/structure/context control line, chunking helper, and DI extension.
+- 🎉 **`v0.1.1`** — NuGet package icon now ships correctly (cross-platform pack paths), plus a new live-microphone sample built on Spectre.Console.
+- 🎙️ **`LiveMicTranscription` sample** — microphone → Silero VAD → Whisper → s1-mini, fully on-device, with `--save-audio` / `--wav` replay for reproducible testing.
 - 🧵 **`S1MiniClient`** — self-contained `IChatClient` implementation with automatic HuggingFace download of `elbruno/s1-mini-onnx` (int4).
 - 🧪 **Qwen3 non-thinking prompt format** — ported verbatim from the model's own `chat_template.jinja`, verified byte-for-byte against the real model.
 - 🦺 **ORT-GenAI temperature-0 crash guard** — the native `temperature=0` divide-by-zero trap is guarded at the runtime layer; greedy decoding is safe for every call.
-- 🔬 **Empirically-verified control-line documentation** — enum XML docs and README table reflect what the real INT4 model actually does, including the `lists` / `message` / `notes` caveats.
 
 ## Documentation
 
@@ -147,6 +147,56 @@ dotnet test ElBruno.S1Mini.slnx --framework net8.0
 | Sample | Description |
 |--------|-------------|
 | [HelloS1Mini](src/samples/HelloS1Mini) | Console sample covering default normalization, `Context.Email`, `Structure.Lists`, and pure-filler input. |
+| [S1MiniWebSample](src/samples/S1MiniWebSample) | Blazor Server web UI: textarea → Normalize → cleaned output with styling/structure/context selectors. |
+| [LiveMicTranscription](src/samples/LiveMicTranscription) | Windows-only console sample: default microphone → [Silero VAD](https://www.nuget.org/packages/ElBruno.Realtime.SileroVad) speech detection → [ElBruno.Whisper](https://www.nuget.org/packages/ElBruno.Whisper) speech-to-text → s1-mini cleanup, live and fully local. A [Spectre.Console](https://spectreconsole.net/) UI provides arrow-key model/style pickers, per-model download progress bars, a live input meter, and side-by-side raw vs. cleaned transcript panels, then offers to delete every downloaded model on exit. Supports `--save-audio` and `--wav <file\|folder>` for reproducible testing. |
+
+![S1Mini web sample](docs/images/websample.png)
+
+### Reproducible testing with recordings
+
+Live microphone testing is not repeatable — every attempt is a new performance. The sample
+can therefore record what it captures and replay it later through the identical pipeline:
+
+```bash
+# Capture: writes each detected utterance to ./recordings/*.wav
+dotnet run --project src/samples/LiveMicTranscription -- --save-audio
+
+# Replay: same VAD, same models, no microphone needed
+dotnet run --project src/samples/LiveMicTranscription -- --wav recordings
+```
+
+`--wav` accepts a single file or a folder, and resamples/downmixes anything to 16 kHz mono,
+so a recording made with any tool works. This isolates model and setting changes from
+variation in the speaking itself.
+
+> **Note on Whisper + s1-mini:** Whisper does transcribe spoken fillers (`um`, `uh`) when
+> they are actually captured, and s1-mini removes them. The hard part is *capturing* them:
+> fillers are low-energy sounds that sit on the noise floor, so a simple energy-threshold
+> gate discards exactly the words this library exists to clean up. The sample therefore
+> uses **Silero VAD** (a neural speech detector) and cuts each utterance as one contiguous
+> slice from the first to the last detected speech segment, plus padding — which preserves
+> the quiet onsets. Measured on the same synthesized phrase:
+>
+> | Segmentation | Whisper output |
+> |---|---|
+> | Energy threshold | `So, um, hello.` (truncated at the first pause) |
+> | Silero VAD + contiguous slice | `So, um, hello. I have a, uh, question here. And I want to, um, see what I am going to do here.` |
+>
+> s1-mini then returns `So, hello. I have a question here. And I want to see what I am going to do here.`
+> The sample defaults to Whisper Tiny, which preserves fillers best; larger models tidy the
+> transcript as they decode, which can make the cleanup step look like a no-op.
+>
+> **Utterance grouping matters too.** A hesitation ("I think… *ummm*… we should") contains a
+> pause often longer than a second. Ending the phrase there splits one sentence into
+> fragments and strands the filler at a boundary, so the sample waits 1.5 s of silence
+> before closing an utterance.
+>
+> **Known model limitation:** s1-mini recognizes every common filler spelling
+> (`um`, `umm`, `ummm`, `uh`, `em`, `emm`, `eh`, `ehh`, `erm`, `hmm`, `er`, `ah`) in ordinary
+> sentences, but it passes greeting phrases containing a personal name through verbatim —
+> `"Hello, um, hi Kara."` keeps the `um`, while `"Hello, um, hi."` and
+> `"Hello, um, this is a test."` are both cleaned. Using `Context.Email` strips the filler in
+> that case.
 
 ## Testing
 

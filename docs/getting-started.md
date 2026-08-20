@@ -64,3 +64,15 @@ builder.Services.AddTranscriptNormalizer(options =>
 ```
 
 Then inject `TranscriptNormalizer` into your consumers. Note it is deliberately **not** registered as `IChatClient` — s1-mini is not a general chat model.
+
+## Web sample
+
+The repo includes a minimal Blazor Server sample at `src/samples/S1MiniWebSample`.
+
+```bash
+dotnet run --project src/samples/S1MiniWebSample/S1MiniWebSample.csproj -c Release
+```
+
+Open the local URL shown in the console, paste a transcript, choose the control-line options, and click **Normalize** to see the cleaned result.
+
+![S1MiniWebSample](images/websample.png)

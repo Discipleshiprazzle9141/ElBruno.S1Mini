@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <!-- NAudio microphone capture (WaveInEvent) is Windows-only, so this sample targets
+         net8.0-windows instead of the library's cross-platform TFMs. -->
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\ElBruno.S1Mini\ElBruno.S1Mini.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- Speech-to-text (raw transcript) comes from ElBruno.Whisper; s1-mini then cleans it up. -->
+    <PackageReference Include="ElBruno.Whisper" Version="0.9.0" />
+    <PackageReference Include="ElBruno.Realtime" Version="0.10.2" />
+    <PackageReference Include="ElBruno.Realtime.SileroVad" Version="0.10.2" />
+    <PackageReference Include="NAudio" Version="2.2.1" />
+    <PackageReference Include="Spectre.Console" Version="0.57.2" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,96 @@
+﻿@page "/"
+@rendermode InteractiveServer
+@using ElBruno.S1Mini.Normalization
+@inject TranscriptNormalizer Normalizer
+
+<PageTitle>S1Mini Web Sample</PageTitle>
+
+<h1>S1Mini Transcript Normalizer</h1>
+
+<div class="sample-shell">
+    <div class="panel">
+        <label for="transcript">Raw transcript</label>
+        <textarea id="transcript" @bind="Transcript" rows="10" />
+
+        <div class="select-grid">
+            <label>
+                Styling
+                <select @bind="Styling">
+                    @foreach (var option in Enum.GetValues<TranscriptStyling>())
+                    {
+                        <option value="@option">@option</option>
+                    }
+                </select>
+            </label>
+
+            <label>
+                Structure
+                <select @bind="Structure">
+                    @foreach (var option in Enum.GetValues<TranscriptStructure>())
+                    {
+                        <option value="@option">@option</option>
+                    }
+                </select>
+            </label>
+
+            <label>
+                Context
+                <select @bind="Context">
+                    @foreach (var option in Enum.GetValues<TranscriptContext>())
+                    {
+                        <option value="@option">@option</option>
+                    }
+                </select>
+            </label>
+        </div>
+
+        <button class="normalize-button" @onclick="NormalizeAsync" disabled="@IsRunning">
+            @(IsRunning ? "Normalizing..." : "Normalize")
+        </button>
+    </div>
+
+    <div class="panel output-panel">
+        <label>Cleaned output</label>
+        <pre>@Result</pre>
+    </div>
+</div>
+
+<p class="footnote">English only. INT4 CPU inference. Vendor accuracy claim: 94.8% (Superwhisper).</p>
+
+@code {
+    private string Transcript { get; set; } = "so um i need to like send the the report by uh friday no wait make that thursday";
+    private TranscriptStyling Styling { get; set; } = TranscriptStyling.SemiFormal;
+    private TranscriptStructure Structure { get; set; } = TranscriptStructure.Prose;
+    private TranscriptContext Context { get; set; } = TranscriptContext.General;
+    private string Result { get; set; } = "Click Normalize to generate a cleaned transcript.";
+    private bool IsRunning { get; set; }
+
+    private async Task NormalizeAsync()
+    {
+        IsRunning = true;
+        Result = "Normalizing...";
+
+        try
+        {
+            var cleaned = await Normalizer.NormalizeAsync(
+                Transcript,
+                new TranscriptNormalizerOptions
+                {
+                    Styling = Styling,
+                    Structure = Structure,
+                    Context = Context,
+                    MaxTokens = 1024,
+                });
+
+            Result = string.IsNullOrWhiteSpace(cleaned) ? "" : cleaned;
+        }
+        catch (Exception ex)
+        {
+            Result = $"Error: {ex.Message}";
+        }
+        finally
+        {
+            IsRunning = false;
+        }
+    }
+}
