@@ -193,11 +193,11 @@ dotnet test ElBruno.S1Mini.slnx --framework net8.0
 
 ## What's New
 
-- 🎉 **`v0.1.1`** — NuGet package icon now ships correctly (cross-platform pack paths), plus a new live-microphone sample built on Spectre.Console.
+- 📚 **`v0.1.2`** — documentation release: the package page now shows before/after examples, corrects the upstream accuracy attribution, and refreshes the author links. No library code changes.
+- 🦺 **ORT-GenAI temperature-0 crash guard** — the native `temperature=0` divide-by-zero trap is guarded at the runtime layer; greedy decoding is safe for every call.
 - 🎙️ **`LiveMicTranscription` sample** — microphone → Silero VAD → Whisper → s1-mini, fully on-device, with `--save-audio` / `--wav` replay for reproducible testing.
 - 🧵 **`S1MiniClient`** — self-contained `IChatClient` implementation with automatic HuggingFace download of `elbruno/s1-mini-onnx` (int4).
 - 🧪 **Qwen3 non-thinking prompt format** — ported verbatim from the model's own `chat_template.jinja`, verified byte-for-byte against the real model.
-- 🦺 **ORT-GenAI temperature-0 crash guard** — the native `temperature=0` divide-by-zero trap is guarded at the runtime layer; greedy decoding is safe for every call.
 
 ## Documentation
 
